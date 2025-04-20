@@ -52,7 +52,12 @@
 //    let HomeVM = HomeViewModel()
 //    
 //}
+
 //
+
+
+
+
 
 import Foundation
 import SwiftUI
@@ -69,6 +74,9 @@ class DeveloperPreview {
     
     static let instance = DeveloperPreview()
     private init() { }
+    
+    let stat1 = StatisticsModel(title: "Market Cap", value: "$12.44Bn", percentageChange: 21.94)
+    let stat2 = StatisticsModel(title: "Total Volume", value: "1.32Tr")
     
     let coin = CoinModel(
         id: "bitcoin",
@@ -100,4 +108,5 @@ class DeveloperPreview {
     )
     
     let HomeVM = HomeViewModel()
+    
 }
