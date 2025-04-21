@@ -23,10 +23,11 @@ class CoinDataService {
             "&sparkline=true&price_change_percentage=24h"
         ) else { return }
 
-        coinSubscription = NetworkingManager.download(url: url, headers: [:]) // No headers for public API
+        coinSubscription = NetworkingManager.download(url: url) // No headers for public API
             .decode(type: [CoinModel].self, decoder: JSONDecoder())
             .sink(receiveCompletion: NetworkingManager.handleCompletion, receiveValue: { [weak self] returnedCoins in
                 self?.allCoins = returnedCoins
+                self?.coinSubscription?.cancel()
             })
     }
 }

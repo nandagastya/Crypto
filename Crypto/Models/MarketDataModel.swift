@@ -4,12 +4,12 @@
 //
 //  Created by Agastya Nand on 19/04/25.
 //
-
+//
 import Foundation
 
 //JSON DATA
 /*
- URL:  https://pro-api.coingecko.com/api/v3/global
+ URL:  https://api.coingecko.com/api/v3/global
  
  JSON Response:
  {
@@ -183,19 +183,15 @@ struct MarketDataModel: Codable {
     }
     
     var marketCap: String {
-        if let item = totalMarketCap.first(where: { (key, value) in
-            return key == "usd"
-        }) {
-            return "\(item.value)"
+        if let item = totalMarketCap.first(where: { $0.key == "usd" })  {
+            return "$" + item.value.formattedWithAbbreviations()
         }
         return ""
     }
     
     var Volume: String {
-        if let item = totalVolume.first(where: { (key, value) in
-            return key == "usd"
-        }) {
-            return "\(item.value)"
+        if let item = totalVolume.first(where: { $0.key == "usd" })  {
+            return "$" + item.value.formattedWithAbbreviations()
         }
         return ""
     }

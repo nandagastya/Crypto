@@ -24,20 +24,11 @@ class NetworkingManager {
         }
     }
 
-    static func download(url: URL, headers: [String: String]) -> AnyPublisher<Data, Error> {
-        var request = URLRequest(url: url)
-        headers.forEach { key, value in
-            request.setValue(value, forHTTPHeaderField: key)
-        }
-
-        return URLSession.shared.dataTaskPublisher(for: request)
+    // MARK: - Request without headers
+    static func download(url: URL) -> AnyPublisher<Data, Error> {
+        return URLSession.shared.dataTaskPublisher(for: url)
             .subscribe(on: DispatchQueue.global(qos: .default))
-            .tryMap {
-                // 🧪 Debug: Print raw JSON
-                let raw = String(data: $0.data, encoding: .utf8) ?? "nil"
-                print("📩 Raw response from \(url):\n\(raw)")
-                return try handleURLResponse(output: $0, url: url)
-            }
+            .tryMap { try handleURLResponse(output: $0, url: url) }
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
